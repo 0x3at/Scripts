@@ -1,0 +1,33 @@
+# Template for merging an external repository into the 'archive' repository
+
+# Step 1: Clone the external repository
+git clone [External Repository URL]
+cd [External Repository Name]
+
+# Step 2: Remove the .git directory from the cloned repository
+rmdir /s /q .git
+
+# Step 3: Navigate back to the 'archive' repository
+cd ..
+
+# Step 4: Create a new branch in the 'archive' repository for the merge
+git checkout -b merge-[External Repository Name]
+
+# Step 5: Move the contents of the cloned repository into a new subdirectory in the 'archive' repository
+mkdir archived_[External Repository Name]
+xcopy /E /I /H [External Repository Name]\* archived_[External Repository Name]\
+
+# Step 6: Add, commit, and merge the changes
+git add .
+git commit -m "Merged archived_[External Repository Name]"
+git checkout main
+git merge merge-[External Repository Name] --allow-unrelated-histories
+
+# Step 7: Delete the temporary merge branch
+git branch -d merge-[External Repository Name]
+
+# Step 8: Push the changes to the remote 'main' branch
+git push origin main
+
+# Step 9: Remove the cloned external repository
+rmdir /s /q [External Repository Name]
