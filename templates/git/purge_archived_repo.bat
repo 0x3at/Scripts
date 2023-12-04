@@ -1,6 +1,3 @@
-gh auth login
-gh auth refresh -h github.com -s delete_repo --yes
-
 @echo off
 SETLOCAL ENABLEDELAYEDEXPANSION
 
@@ -37,8 +34,20 @@ REM Delete each repository
 FOR /L %%i IN (0,1,23) DO (
     SET repo=!repos[%%i]!
 
-    REM Delete the repository from GitHub
+    REM Attempt to delete the repository from GitHub
     gh repo delete 0x3at/!repo! --confirm
+
+    REM Check the exit code to handle errors
+    IF !errorlevel! equ 0 (
+        REM Repository was deleted successfully
+        ECHO Repository !repo! deleted successfully.
+    ) ELSE IF !errorlevel! equ 1 (
+        REM Repository was not found or permission issue
+        ECHO Repository !repo! not found or permission issue.
+    ) ELSE (
+        REM Other error occurred
+        ECHO An error occurred while deleting repository !repo!.
+    )
 
     REM Delete the local copy of the repository, if it exists
     IF EXIST "!basePath!\!repo!" (
@@ -47,3 +56,4 @@ FOR /L %%i IN (0,1,23) DO (
 )
 
 ENDLOCAL
+
