@@ -35,7 +35,7 @@ FOR /L %%i IN (0,1,23) DO (
     SET repo=!repos[%%i]!
 
     REM Attempt to delete the repository from GitHub
-    gh repo delete 0x3at/!repo! --confirm
+    gh repo delete 0x3at/!repo! --yes
 
     REM Check the exit code to handle errors
     IF !errorlevel! equ 0 (
