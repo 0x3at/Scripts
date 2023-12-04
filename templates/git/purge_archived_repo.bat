@@ -1,5 +1,5 @@
 gh auth login
-gh auth refresh -h github.com -s delete_repo Flag --yes
+gh auth refresh -h github.com -s delete_repo --yes
 
 @echo off
 SETLOCAL ENABLEDELAYEDEXPANSION
