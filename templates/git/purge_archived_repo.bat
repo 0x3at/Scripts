@@ -1,3 +1,5 @@
+gh auth login
+
 @echo off
 SETLOCAL ENABLEDELAYEDEXPANSION
 
